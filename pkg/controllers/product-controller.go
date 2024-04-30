@@ -51,6 +51,27 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 	w.Write(res)
 }
 
+func GetProductListByCategory(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	newProduct := models.GetProductListByCategory(query["category"][0])
+
+	res, err := json.Marshal(newProduct)
+	if err != nil {
+		fmt.Println("Error when fetching list products by category")
+		err_msg := ErrMessage{
+			Status:  "ERROR",
+			Message: "Error when fetching list products by category",
+			Code:    http.StatusInternalServerError,
+		}
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(err_msg)
+	}
+
+	w.Header().Set("Content-Type", "pkglication/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
 func GetProductById(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	productId := vars["productId"]
@@ -104,6 +125,9 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	}
 	if updateProduct.Stock >= 0 {
 		productDetails.Stock = updateProduct.Stock
+	}
+	if updateProduct.Category != "" {
+		productDetails.Category = updateProduct.Category
 	}
 
 	db.Save(&productDetails)

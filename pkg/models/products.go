@@ -10,6 +10,7 @@ type Product struct {
 	ProductName string `gorm:"type:text"json:"product_name"`
 	Price       uint64 `gorm:"type:uint"json:"price"`
 	Stock       uint64 `gorm:"type:uint"json:"stock"`
+	Category    string `gorm:"type:varchar(255)"json:"category"`
 }
 
 func init() {
@@ -26,6 +27,12 @@ func (p *Product) CreateProduct() *Product {
 func GetAllProducts() []Product {
 	var Products []Product
 	db.Find(&Products)
+	return Products
+}
+
+func GetProductListByCategory(category string) []Product {
+	var Products []Product
+	db.Where("category = ?", category).Find(&Products)
 	return Products
 }
 

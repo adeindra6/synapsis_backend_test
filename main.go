@@ -5,12 +5,14 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/adeindra6/synapsis_backend_test/pkg/routes"
 	"github.com/gorilla/mux"
 	_ "gorm.io/driver/mysql"
 )
 
 func main() {
 	r := mux.NewRouter()
+	routes.RegisterCustomerRoutes(r)
 	http.Handle("/", r)
 
 	localServer := "http://localhost:8080"

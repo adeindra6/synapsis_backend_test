@@ -13,6 +13,7 @@ import (
 func main() {
 	r := mux.NewRouter()
 	routes.RegisterCustomerRoutes(r)
+	routes.RegisterProductRoutes(r)
 	http.Handle("/", r)
 
 	localServer := "http://localhost:8080"

@@ -14,6 +14,7 @@ func main() {
 	r := mux.NewRouter()
 	routes.RegisterCustomerRoutes(r)
 	routes.RegisterProductRoutes(r)
+	routes.RegisterCartRoutes(r)
 	http.Handle("/", r)
 
 	localServer := "http://localhost:8080"

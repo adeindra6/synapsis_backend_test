@@ -18,7 +18,7 @@ type Customer struct {
 	Email    string `gorm:"type:varchar(255)"json:"email"`
 	Address  string `gorm:"type:text"json:"address"`
 	Phone    string `gorm:"type:varchar(255)"json:"phone"`
-	Password string `gorm:"type:text"json:"password"`
+	Password string `gorm:"type:text"json:"password,omitempty"`
 }
 
 type LoginRes struct {

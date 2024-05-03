@@ -89,8 +89,8 @@ func UpdateCustomer(w http.ResponseWriter, r *http.Request) {
 	utils.ParseBody(r, updateCustomer)
 	vars := mux.Vars(r)
 	customerId := vars["customerId"]
-	id, err := strconv.ParseInt(customerId, 0, 0)
 
+	id, err := strconv.ParseInt(customerId, 0, 0)
 	if err != nil {
 		fmt.Println("Error when updating customer")
 		err_msg := ErrMessage{
@@ -138,8 +138,8 @@ func UpdateCustomer(w http.ResponseWriter, r *http.Request) {
 func DeleteCustomer(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	customerId := vars["customerId"]
-	id, err := strconv.ParseInt(customerId, 0, 0)
 
+	id, err := strconv.ParseInt(customerId, 0, 0)
 	if err != nil {
 		fmt.Println("Error when deleting customer")
 		err_msg := ErrMessage{

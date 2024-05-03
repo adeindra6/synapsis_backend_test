@@ -306,6 +306,90 @@ func GetPaidCartByCustomerId(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func UpdateItemInCart(w http.ResponseWriter, r *http.Request) {
+	var msg NonAuthorizedMsg
+	var authorized bool
+	var customer_id int64
+
+	reqToken := r.Header.Get("Authorization")
+	authorized = false
+	customer_id = 0
+	if strings.Contains(reqToken, "Bearer ") {
+		splitToken := strings.Split(reqToken, "Bearer ")
+		reqToken = splitToken[1]
+
+		claims := jwt.MapClaims{}
+		_, err := jwt.ParseWithClaims(reqToken, claims, func(token *jwt.Token) (interface{}, error) {
+			return []byte(jwtKey), nil
+		})
+
+		if err != nil {
+			panic(err)
+		}
+
+		for key, val := range claims {
+			if key == "authorized" && val == true {
+				authorized = true
+			}
+			if key == "customer_id" {
+				customer_id = int64(val.(float64))
+			}
+		}
+	} else {
+		msg.Status = "UNAUTHORIZED"
+		msg.Message = "Required Token!"
+		msg.Code = http.StatusUnauthorized
+	}
+
+	if authorized && customer_id > 0 {
+		var updateCart = &models.Cart{}
+		utils.ParseBody(r, updateCart)
+		vars := mux.Vars(r)
+		cartId := vars["cartId"]
+
+		id, err := strconv.ParseInt(cartId, 0, 0)
+		if err != nil {
+			fmt.Println("Error when updating cart")
+			err_msg := ErrMessage{
+				Status:  "ERROR",
+				Message: "Error when updating cart",
+				Code:    http.StatusInternalServerError,
+			}
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(err_msg)
+		}
+
+		cartDetails, db := models.GetCartById(id)
+		product, _ := models.GetProductById(cartDetails.ProductId)
+		if updateCart.Quantity > 0 {
+			cartDetails.Quantity = updateCart.Quantity
+			cartDetails.Amount = product.Price * updateCart.Quantity
+		}
+
+		db.Save(&cartDetails)
+
+		var resMsg NonAuthorizedMsg
+		resMsg.Code = http.StatusOK
+		resMsg.Message = "Success Updating shopping cart"
+		resMsg.Status = "SUCCESS"
+
+		res, err := json.Marshal(resMsg)
+		if err != nil {
+			fmt.Println("Error while parsing!!!")
+		}
+
+		w.Header().Set("Content-Type", "pkglication/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
+	} else {
+		w.Header().Set("Content-Type", "pkglication/json")
+		w.WriteHeader(http.StatusUnauthorized)
+		resBodyBytes := new(bytes.Buffer)
+		json.NewEncoder(resBodyBytes).Encode(msg)
+		w.Write(resBodyBytes.Bytes())
+	}
+}
+
 func DeleteItemsFromCart(w http.ResponseWriter, r *http.Request) {
 	var msg NonAuthorizedMsg
 	var authorized bool

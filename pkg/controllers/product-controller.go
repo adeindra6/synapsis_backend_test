@@ -103,8 +103,8 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	utils.ParseBody(r, updateProduct)
 	vars := mux.Vars(r)
 	productId := vars["productId"]
-	id, err := strconv.ParseInt(productId, 0, 0)
 
+	id, err := strconv.ParseInt(productId, 0, 0)
 	if err != nil {
 		fmt.Println("Error when updating product")
 		err_msg := ErrMessage{
@@ -144,8 +144,8 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	productId := vars["productId"]
-	id, err := strconv.ParseInt(productId, 0, 0)
 
+	id, err := strconv.ParseInt(productId, 0, 0)
 	if err != nil {
 		fmt.Println("Error when deleting product")
 		err_msg := ErrMessage{

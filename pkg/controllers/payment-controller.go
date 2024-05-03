@@ -239,9 +239,9 @@ func CheckoutPayment(w http.ResponseWriter, r *http.Request) {
 			paymentDetails.PaymentTime = time.Now()
 			db.Save(&paymentDetails)
 
-			paidCart, _ := models.GetCartById(paymentDetails.CartId)
+			paidCart, db2 := models.GetCartById(paymentDetails.CartId)
 			paidCart.IsPaid = true
-			db.Save(&paidCart)
+			db2.Save(&paidCart)
 
 			resMsg.Code = http.StatusOK
 			resMsg.Message = "Payment Successful"

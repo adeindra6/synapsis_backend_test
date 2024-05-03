@@ -440,7 +440,7 @@ func DeleteItemsFromCart(w http.ResponseWriter, r *http.Request) {
 			json.NewEncoder(w).Encode(err_msg)
 		}
 
-		_ = models.DeleteCardById(id)
+		_ = models.DeleteCartById(id)
 		var resMsg NonAuthorizedMsg
 		resMsg.Code = http.StatusOK
 		resMsg.Message = "Success Delete Item from shopping cart"

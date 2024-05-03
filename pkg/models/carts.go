@@ -45,7 +45,7 @@ func GetCartByCustomerId(customerId int64, isPaid bool) []Cart {
 	return Carts
 }
 
-func DeleteCardById(id int64) Cart {
+func DeleteCartById(id int64) Cart {
 	var cart Cart
 	db.Where("id = ?", id).Delete(&cart)
 	return cart

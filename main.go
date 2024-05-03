@@ -15,6 +15,7 @@ func main() {
 	routes.RegisterCustomerRoutes(r)
 	routes.RegisterProductRoutes(r)
 	routes.RegisterCartRoutes(r)
+	routes.RegisterPaymentRoutes(r)
 	http.Handle("/", r)
 
 	localServer := "http://localhost:8080"

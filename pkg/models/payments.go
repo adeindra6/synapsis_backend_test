@@ -13,6 +13,7 @@ type Payment struct {
 	TotalPaid     uint64    `gorm:"type:uint"json:"total_paid"`
 	PaymentMethod string    `gorm:"type:varchar(255)"json:"payment_method"`
 	PaymentTime   time.Time `gorm:"type:TIMESTAMP;null;default:null"json:"payment_time"`
+	Cart          Cart      `gorm:"foreignkey:cart_id;references:id"`
 }
 
 func init() {

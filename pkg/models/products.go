@@ -7,10 +7,10 @@ import (
 
 type Product struct {
 	gorm.Model
-	ProductName string `gorm:"type:text"json:"product_name"`
-	Price       uint64 `gorm:"type:uint"json:"price"`
-	Stock       uint64 `gorm:"type:uint"json:"stock"`
-	Category    string `gorm:"type:varchar(255)"json:"category"`
+	ProductName string `gorm:"type:text"json:"product_name,omitempty"`
+	Price       uint64 `gorm:"type:uint"json:"price,omitempty"`
+	Stock       uint64 `gorm:"type:uint"json:"stock,omitempty"`
+	Category    string `gorm:"type:varchar(255)"json:"category,omitempty"`
 }
 
 func init() {

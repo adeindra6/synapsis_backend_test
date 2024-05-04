@@ -1,5 +1,7 @@
 # Synapsis Backend Challenge Test
 This is a backend API for a online store application.
+For API Documentation can be check on this url:
+https://documenter.getpostman.com/view/13162567/2sA3JGe3jH
 
 ## System Requirements
 1. Golang minimum version Go 1.18

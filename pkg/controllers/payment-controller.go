@@ -18,11 +18,8 @@ import (
 var NewPayment models.Payment
 
 type CartPayment struct {
-	Cart          models.Cart `json:"cart"`
-	TotalPaid     uint64      `json:"total_paid"`
-	PaymentMethod string      `json:"payment_method"`
-	PaymentTime   string      `json:"payment_time"`
-}
+	ID   int64       `json:"id"`
+	Cart models.Cart `json:"cart"`
 
 func CreatePayment(w http.ResponseWriter, r *http.Request) {
 	var msg NonAuthorizedMsg
@@ -143,8 +140,27 @@ func GetPaymentById(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Error while parsing")
 		}
 
+		var cartPayment CartPayment
 		PaymentDetails, _ := models.GetPaymentsById(id)
-		res, err := json.Marshal(PaymentDetails)
+		cartDetails, _ := models.GetCartById(PaymentDetails.CartId)
+		customerDetails, _ := models.GetCustomerById(cartDetails.CustomerId)
+		productDetails, _ := models.GetProductById(cartDetails.ProductId)
+
+		cartPayment.ID = id
+		cartPayment.Cart.ID = cartDetails.ID
+		cartPayment.Cart.Quantity = cartDetails.Quantity
+		cartPayment.Cart.Amount = cartDetails.Amount
+		cartPayment.Cart.Customer.ID = customerDetails.ID
+		cartPayment.Cart.Customer.Fullname = customerDetails.Fullname
+		cartPayment.Cart.Customer.Email = customerDetails.Email
+		cartPayment.Cart.Customer.Address = customerDetails.Address
+		cartPayment.Cart.Customer.Phone = customerDetails.Phone
+		cartPayment.Cart.Product.ID = productDetails.ID
+		cartPayment.Cart.Product.ProductName = productDetails.ProductName
+		cartPayment.Cart.Product.Price = productDetails.Price
+		cartPayment.Cart.Product.Category = productDetails.Category
+
+		res, err := json.Marshal(cartPayment)
 		if err != nil {
 			fmt.Println("Error when fetching payment")
 			err_msg := ErrMessage{

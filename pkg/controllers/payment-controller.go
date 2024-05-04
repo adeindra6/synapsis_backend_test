@@ -20,7 +20,6 @@ var NewPayment models.Payment
 type CartPayment struct {
 	ID   int64       `json:"id"`
 	Cart models.Cart `json:"cart"`
-}
 
 func CreatePayment(w http.ResponseWriter, r *http.Request) {
 	var msg NonAuthorizedMsg

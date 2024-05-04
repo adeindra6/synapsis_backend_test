@@ -7,11 +7,11 @@ import (
 
 type Cart struct {
 	gorm.Model
-	CustomerId int64    `gorm:"type:int"json:"customer_id"`
-	ProductId  int64    `gorm:"type:int"json:"product_id"`
-	Quantity   uint64   `gorm:"type:uint"json:"quantity"`
-	Amount     uint64   `gorm:"type:uint"json:"amount"`
-	IsPaid     bool     `gorm:"type:bool"json:"is_paid"`
+	CustomerId int64    `gorm:"type:int"json:"customer_id,omitempty"`
+	ProductId  int64    `gorm:"type:int"json:"product_id,omitempty"`
+	Quantity   uint64   `gorm:"type:uint"json:"quantity,omitempty"`
+	Amount     uint64   `gorm:"type:uint"json:"amount,omitempty"`
+	IsPaid     bool     `gorm:"type:bool"json:"is_paid,omitempty"`
 	Customer   Customer `gorm:"foreignkey:customer_id;references:id"`
 	Product    Product  `gorm:"foreignkey:product_id;references:id"`
 }

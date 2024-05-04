@@ -9,10 +9,10 @@ import (
 
 type Payment struct {
 	gorm.Model
-	CartId        int64     `gorm:"type:int"json:"cart_id"`
-	TotalPaid     uint64    `gorm:"type:uint"json:"total_paid"`
-	PaymentMethod string    `gorm:"type:varchar(255)"json:"payment_method"`
-	PaymentTime   time.Time `gorm:"type:TIMESTAMP;null;default:null"json:"payment_time"`
+	CartId        int64     `gorm:"type:int"json:"cart_id,omitempty"`
+	TotalPaid     uint64    `gorm:"type:uint"json:"total_paid,omitempty"`
+	PaymentMethod string    `gorm:"type:varchar(255)"json:"payment_method,omitempty"`
+	PaymentTime   time.Time `gorm:"type:TIMESTAMP;null;default:null"json:"payment_time,omitempty"`
 	Cart          Cart      `gorm:"foreignkey:cart_id;references:id"`
 }
 
